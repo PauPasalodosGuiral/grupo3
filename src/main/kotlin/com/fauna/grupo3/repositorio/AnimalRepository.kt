@@ -2,208 +2,106 @@ package com.fauna.grupo3.repositorio
 
 import com.fauna.grupo3.modelo.Animal
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
+import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
+import org.springframework.stereotype.Repository
+import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
 
+@Repository
 class AnimalRepository {
-    fun leerCSV(ruta: Path): List<Animal> {
-        var animales: List<Animal> = emptyList()
-        if (!Files.isReadable(ruta)) {
-            println("Error No se puede leer el fichero en la ruta: $ruta")
-        } else {
-            val reader = csvReader { delimiter = ';' }
 
+    private val ruta: Path = Path.of("src/main/resources/data/animales.csv")
+
+    private val animales: MutableList<Animal> = cargarCSV().toMutableList()
+
+    private fun cargarCSV(): List<Animal> {
+        val lista = mutableListOf<Animal>()
+
+        if (!Files.isReadable(ruta)) {
+            println("Aviso: No se pudo leer el fichero en la ruta: $ruta")
+            return lista
+        }
+
+        try {
+            val reader = csvReader { delimiter = ';' }
             val filas: List<Map<String, String>> = reader.readAllWithHeader(ruta.toFile())
 
-            animales = filas.mapNotNull { columnas ->
+            for (fila in filas) {
                 try {
-                    val id_animal = columnas["id_animal"]?.trim()?.toInt()!!
-                    val nombre = columnas["nombre"]?.trim()!!
-                    val origen = columnas["origen"]?.trim()!!
-                    val esperanza_vida = columnas["esperanza_vida"]?.trim()?.toInt()!!
-                    val peso_medio = columnas["peso_medio"]?.trim()?.toDouble()!!
-                    Animal(id_animal, nombre, origen, esperanza_vida, peso_medio)
+                    val idAnimal = fila["id_animal"]?.trim()?.toInt()!!
+                    val nombre = fila["nombre"]?.trim()!!
+                    val origen = fila["origen"]?.trim()!!
+                    val esperanzaVida = fila["esperanza_vida"]?.trim()?.toInt()!!
+                    val pesoMedio = fila["peso_medio"]?.trim()?.replace(',', '.')?.toDouble()!!
+
+                    lista.add(Animal(idAnimal, nombre, origen, esperanzaVida, pesoMedio))
                 } catch (e: Exception) {
-                    println("Fila inválida ignorada: $columnas ")
-                    null
+                    println("Fila inválida omitida: $fila")
                 }
             }
-            println("--- Información leída con éxito de: $ruta")
+        } catch (e: Exception) {
+            println("Error al cargar el archivo CSV: ${e.message}")
+        }
+
+        return lista
+    }
+
+    private fun guardarEnCSV() {
+        try {
+            val fichero: File = ruta.toFile()
+            val filasParaEscribir = mutableListOf<List<String>>()
+
+            // Encabezados
+            filasParaEscribir.add(listOf("id_animal", "nombre", "origen", "esperanza_vida", "peso_medio"))
+
+            // Datos
             for (animal in animales) {
-                println(" - ID: ${animal.id_animal}, " +
-                        "Nombre: ${animal.nombre}, " +
-                        "Origen: ${animal.origen}, " +
-                        "Esperanza de vida: ${animal.esperanza_vida} " +
-                        "años, " +
-                        "Peso medio: ${animal.peso_medio} kg")
-            }
-        }
-        return animales
-    }
-    fun anadirCSV(ruta: Path) {
-        val animales = leerCSV(ruta).toMutableList()
-        var bandera: Boolean = true
-
-        while (bandera) {
-            try {
-                println("Dame una id válida")
-                val id: Int = readln().toInt()
-
-                if (animales.any { it.id_animal == id }) {
-                    println("El ID ya existe en el fichero. Intenta con otro.")
-                } else {
-                    println("Dame el nombre:")
-                    val nombre = readln()
-
-                    println("Dame el origen:")
-                    val origen = readln()
-
-                    println("Dame la esperanza de vida (número entero):")
-                    val esperanza_vida = readln().toInt()
-
-                    println("Dame el peso medio (número decimal):")
-                    val peso_medio = readln().toDouble()
-
-                    val nuevoAnimal = Animal(id, nombre, origen, esperanza_vida, peso_medio)
-                    animales.add(nuevoAnimal)
-
-                    val fichero: File = ruta.toFile()
-                    csvWriter {
-                        delimiter = ';'
-                    }.writeAll(
-
-                        listOf(listOf("id_animal", "nombre", "origen", "esperanza_vida", "peso_medio")) +
-                                animales.map { animal ->
-                                    listOf(
-                                        animal.id_animal.toString(),
-                                        animal.nombre,
-                                        animal.origen,
-                                        animal.esperanza_vida.toString(),
-                                        animal.peso_medio.toString()
-                                    )
-                                },
-                        fichero
+                filasParaEscribir.add(
+                    listOf(
+                        animal.id_animal.toString(),
+                        animal.nombre,
+                        animal.origen,
+                        animal.esperanza_vida.toString(),
+                        animal.peso_medio.toString()
                     )
-                    println("--- Información guardada con éxito en: $fichero")
-                    bandera = false
-                }
-            } catch (e: NumberFormatException) {
-                println("Error Uno de los datos numéricos introducidos no es válido.")
-            } catch (e: Exception) {
-                println("Error al escribir el fichero CSV: ${e.message}")
-                bandera = false
+                )
             }
+
+            csvWriter { delimiter = ';' }.writeAll(filasParaEscribir, fichero)
+        } catch (e: Exception) {
+            println("Error al guardar en el archivo CSV: ${e.message}")
         }
     }
-    fun modificarCSV (ruta: Path) {
-        val animales = leerCSV(ruta).toMutableList()
-        var bandera: Boolean = true
-        while (bandera) {
-            try {
-                println("Introduce el ID del registro a modificar:")
-                val id: Int = readln().toInt()
 
-                val animalEncontrado = animales.find { it.id_animal == id }
 
-                if (animalEncontrado == null) {
-                    println("No se ha encontrado ningún registro con el ID: $id")
-                    bandera = false
-                } else {
-                    println("Registro encontrado: ${animalEncontrado.nombre}")
+    fun leerTodosAnimales(): List<Animal> = animales
+    fun buscarPorID(id: Int): Animal? = animales.find { it.id_animal == id }
 
-                    println("Dame el nuevo nombre:")
-                    val nuevoNombre = readln()
+    fun guardarAnimal(animal: Animal) {
+        val index = animales.indexOfFirst { it.id_animal == animal.id_animal }
 
-                    println("Dame el nuevo origen:")
-                    val nuevoOrigen = readln()
-
-                    println("Dame la nueva esperanza de vida:")
-                    val nuevaEsperanza = readln().toInt()
-
-                    println("Dame el nuevo peso medio:")
-                    val nuevoPeso = readln().replace(',', '.').toDouble()
-
-                    val index = animales.indexOf(animalEncontrado)
-                    animales[index] = Animal(id, nuevoNombre, nuevoOrigen, nuevaEsperanza, nuevoPeso)
-
-                    val fichero: File = ruta.toFile()
-                    csvWriter {
-                        delimiter = ';'
-                    }.writeAll(
-                        listOf(listOf("id_animal", "nombre", "origen", "esperanza_vida", "peso_medio")) +
-                                animales.map { animal ->
-                                    listOf(
-                                        animal.id_animal.toString(),
-                                        animal.nombre,
-                                        animal.origen,
-                                        animal.esperanza_vida.toString(),
-                                        animal.peso_medio.toString()
-                                    )
-                                },
-                        fichero
-                    )
-                    println("--- Registro modificado e información guardada con éxito.")
-                    bandera = false
-                }
-            } catch (e: NumberFormatException) {
-                println("Error Formato numérico incorrecto.")
-            } catch (e: Exception) {
-                println("Error al modificar el fichero: ${e.message}")
-                bandera = false
+        if (index != -1) {
+            // Edición de un animal existente
+            animales[index] = animal
+        } else {
+            // Creación de un nuevo animal (si no trae ID o es 0, asigna autoincremental)
+            val nuevoId = if (animal.id_animal > 0 && buscarPorID(animal.id_animal) == null) {
+                animal.id_animal
+            } else {
+                (animales.maxOfOrNull { it.id_animal } ?: 0) + 1
             }
+            animales.add(animal.copy(id_animal = nuevoId))
         }
+
+        // Sincroniza los cambios con el archivo CSV
+        guardarEnCSV()
     }
-    fun eliminarCSV(ruta: Path) {
-        val animales = leerCSV(ruta).toMutableList()
-        if (animales.isEmpty()) return
 
-        var bandera: Boolean = true
-        while (bandera) {
-            try {
-                println("Introduce el ID del registro a eliminar:")
-                val id: Int = readln().toInt()
-
-                val animalEncontrado = animales.find { it.id_animal == id }
-
-                if (animalEncontrado == null) {
-                    println("No se ha encontrado ningún registro con el ID: $id")
-                    bandera = false
-                } else {
-                    println("Registro encontrado: ${animalEncontrado.nombre}")
-                    println("¿Estás seguro de que deseas eliminar este registro? (s/n):")
-                    val respuesta = readln().trim().lowercase()
-
-                    if (respuesta == "s" || respuesta == "si" || respuesta == "sí") {
-                        animales.remove(animalEncontrado)
-
-                        val fichero: File = ruta.toFile()
-                        csvWriter {
-                            delimiter = ';'
-                        }.writeAll(
-                            listOf(listOf("id_animal", "nombre", "origen", "esperanza_vida", "peso_medio")) +
-                                    animales.map { animal ->
-                                        listOf(
-                                            animal.id_animal.toString(),
-                                            animal.nombre,
-                                            animal.origen,
-                                            animal.esperanza_vida.toString(),
-                                            animal.peso_medio.toString()
-                                        )
-                                    },
-                            fichero
-                        )
-                        println("--- Registro eliminado correctamente.")
-                    } else {
-                        println("Operación cancelada. No se ha eliminado ningún registro.")
-                    }
-                    bandera = false
-                }
-            } catch (e: NumberFormatException) {
-                println("Error Formato numérico incorrecto.")
-            } catch (e: Exception) {
-                println("Error al eliminar el registro: ${e.message}")
-                bandera = false
-            }
+    fun borrarPorId(idAnimal: Int) {
+        val eliminado = animales.removeAll { it.id_animal == idAnimal }
+        if (eliminado) {
+            guardarEnCSV()
         }
     }
 }
