@@ -1,1 +1,25 @@
-<html></html>
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Portal de Plantas</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>Bienvenido al Portal de Animales</h1>
+<p>Explora de forma básica el catálogo introduciendo un nombre a continuación.</p>
+
+<!-- Enlace directo que usa el valor por defecto -->
+<a href="/Animal">Ver animal por defecto</a>
+
+<br><br>
+
+<!-- Formulario que envía la petición GET al controlador -->
+<form action="/animal" method="GET" id="animalForm">
+    <div>
+        <label for="animalField">Escribe el nombre de un Animal:</label>
+        <input type="text" name="nombre" id="animalField" placeholder="Ej. Zorro, Leon, Tigre...">
+        <button type="submit">Consultar</button>
+    </div>
+</form>
+</body>
+</html>
