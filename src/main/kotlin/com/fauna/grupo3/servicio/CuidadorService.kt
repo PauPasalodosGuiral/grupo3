@@ -1,3 +1,8 @@
+/**
+ * - Autor: Izan Moreno
+ * - Entidad: Cuidadores
+ * - Grupo: 3
+ */
 package com.fauna.grupo3.servicio
 
 import com.fauna.grupo3.modelo.Cuidador

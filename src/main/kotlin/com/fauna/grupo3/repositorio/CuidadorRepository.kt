@@ -1,3 +1,8 @@
+/**
+ * - Autor: Izan Moreno
+ * - Entidad: Cuidadores
+ * - Grupo: 3
+ */
 package com.fauna.grupo3.repositorio
 
 import com.fauna.grupo3.modelo.Cuidador
@@ -14,7 +19,6 @@ class CuidadorRepository {
 
     fun leerListaCSV(): List<Cuidador> {
         if (!Files.isReadable(RUTA_CSV)) {
-            println("No se encuentra el fichero en: $RUTA_CSV")
             return emptyList()
         }
 
@@ -25,11 +29,9 @@ class CuidadorRepository {
                 try {
                     Cuidador(columnas[0].toInt(), columnas[1], columnas[2], columnas[3].toInt(), columnas[4].toDouble())
                 } catch (e: Exception) {
-                    println("Fila inválida ignorada: $columnas -> Error: ${e.message}")
                     null
                 }
             } else {
-                println("Fila con formato incompleto ignorada: $columnas")
                 null
             }
         }
