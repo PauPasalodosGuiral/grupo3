@@ -78,26 +78,27 @@ class AnimalRepository {
     fun leerTodosAnimales(): List<Animal> = animales
     fun buscarPorID(id: Int): Animal? = animales.find { it.id_animal == id }
 
-    fun guardarAnimal(animal: Animal) {
+    fun guardarAnimal(animal: Animal): Animal {
+        val animalAGuardar: Animal
         val index = animales.indexOfFirst { it.id_animal == animal.id_animal }
 
         if (index != -1) {
-            // Edición de un animal existente
             animales[index] = animal
+            animalAGuardar = animal
         } else {
-            // Creación de un nuevo animal (si no trae ID o es 0, asigna autoincremental)
             val nuevoId = if (animal.id_animal > 0 && buscarPorID(animal.id_animal) == null) {
                 animal.id_animal
             } else {
                 (animales.maxOfOrNull { it.id_animal } ?: 0) + 1
             }
-            animales.add(animal.copy(id_animal = nuevoId))
+            animalAGuardar = animal.copy(id_animal = nuevoId)
+            animales.add(animalAGuardar)
         }
 
-        // Sincroniza los cambios con el archivo CSV
         guardarEnCSV()
-    }
 
+        return animalAGuardar
+    }
     fun borrarPorId(idAnimal: Int) {
         val eliminado = animales.removeAll { it.id_animal == idAnimal }
         if (eliminado) {
