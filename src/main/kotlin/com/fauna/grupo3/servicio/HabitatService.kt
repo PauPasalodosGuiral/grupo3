@@ -2,12 +2,14 @@ package com.fauna.grupo3.servicio
 
 import com.fauna.grupo3.modelo.Habitat
 import com.fauna.grupo3.repositorio.HabitatRepository
+import org.springframework.stereotype.Service
 
 /**
  * Autor: Jonathan Rosa Aledón
  * Entidad: Habitat
  * Grupo: 3
  */
+@Service
 class HabitatService(private val habitatRepository: HabitatRepository) {
     fun listar(): List<Habitat> = habitatRepository.leerTodosHabitats()
     fun buscar(id: Int): Habitat? = habitatRepository.buscarPorID(id)
