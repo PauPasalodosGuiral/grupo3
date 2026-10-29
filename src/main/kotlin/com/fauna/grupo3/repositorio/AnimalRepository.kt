@@ -1,6 +1,7 @@
 package com.fauna.grupo3.repositorio
 
 import com.fauna.grupo3.modelo.Animal
+import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import java.nio.file.Files
 import java.nio.file.Path
 
