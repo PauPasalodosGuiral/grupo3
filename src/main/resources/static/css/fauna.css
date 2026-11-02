@@ -371,6 +371,8 @@ th.acciones { text-align: right; }
     padding: .6rem 1.1rem; border-radius: 999px;
     background: var(--tinta); color: var(--papel); font-weight: 700;
 }
+.panel .ir { display: inline-block; }
+.panel .creador { margin-top: .9rem; font-size: .95rem; font-weight: 600; color: var(--tinta); }
 .panel-animales   { --sec: var(--mango); }
 .panel-habitats   { --sec: var(--laguna); }
 .panel-cuidadores { --sec: var(--hibisco); }
