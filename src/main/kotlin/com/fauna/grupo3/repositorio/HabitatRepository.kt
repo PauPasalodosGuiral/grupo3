@@ -57,8 +57,8 @@ class HabitatRepository {
             val fichero: File = ruta.toFile()
             val filasParaEscribir = mutableListOf<List<String>>()
 
-            // Encabezados
-            filasParaEscribir.add(listOf("id_habitat", "nombre", "clima", "altitudMedia", "temperaturaMedia"))
+            // Encabezados corregidos con guiones bajos para que coincidan con cargarCSV()
+            filasParaEscribir.add(listOf("id_habitat", "nombre", "clima", "altitud_media", "temperatura_media"))
 
             // Datos
             for (habitat in habitats) {
