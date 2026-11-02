@@ -53,32 +53,33 @@ class HabitatRepository {
     }
 
     private fun guardarEnCSV() {
-        try {
-            val fichero: File = ruta.toFile()
-            val filasParaEscribir = mutableListOf<List<String>>()
+        fun guardarEnCSV() {
+            try {
+                val fichero: File = ruta.toFile()
+                val filasParaEscribir = mutableListOf<List<String>>()
 
-            // Encabezados corregidos con guiones bajos para que coincidan con cargarCSV()
-            filasParaEscribir.add(listOf("id_habitat", "nombre", "clima", "altitud_media", "temperatura_media"))
+                // Encabezados corregidos con guiones bajos para que coincidan con cargarCSV()
+                filasParaEscribir.add(listOf("id_habitat", "nombre", "clima", "altitud_media", "temperatura_media"))
 
-            // Datos
-            for (habitat in habitats) {
-                filasParaEscribir.add(
-                    listOf(
-                        habitat.id_habitat.toString(),
-                        habitat.nombre,
-                        habitat.clima,
-                        habitat.altitud_media.toString(),
-                        habitat.temperatura_media.toString()
+                // Datos
+                for (habitat in habitats) {
+                    filasParaEscribir.add(
+                        listOf(
+                            habitat.id_habitat.toString(),
+                            habitat.nombre,
+                            habitat.clima,
+                            habitat.altitud_media.toString(),
+                            habitat.temperatura_media.toString()
+                        )
                     )
-                )
-            }
+                }
 
-            csvWriter { delimiter = ';' }.writeAll(filasParaEscribir, fichero)
-        } catch (e: Exception) {
-            println("Error al guardar en el archivo CSV: ${e.message}")
+                csvWriter { delimiter = ';' }.writeAll(filasParaEscribir, fichero)
+            } catch (e: Exception) {
+                println("Error al guardar en el archivo CSV: ${e.message}")
+            }
         }
     }
-
 
     fun leerTodosHabitats(): List<Habitat> = habitats
     fun buscarPorID(id: Int): Habitat? = habitats.find { it.id_habitat == id }
