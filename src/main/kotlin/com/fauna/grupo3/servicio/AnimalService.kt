@@ -1,5 +1,11 @@
 package com.fauna.grupo3.servicio
 
+/**
+ * - Autor: Pau Pasalodos
+ * - Entidad: Animales
+ * - Grupo: 3
+ */
+
 import com.fauna.grupo3.modelo.Animal
 import com.fauna.grupo3.repositorio.AnimalRepository
 import org.springframework.stereotype.Service

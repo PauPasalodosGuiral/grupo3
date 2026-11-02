@@ -1,5 +1,12 @@
 package com.fauna.grupo3.controlador
 
+/**
+ * - Autor: Pau Pasalodos
+ * - Entidad: Animales
+ * - Grupo: 3
+ */
+
+
 import org.springframework.ui.Model
 import com.fauna.grupo3.modelo.Animal
 import com.fauna.grupo3.servicio.AnimalService

@@ -1,5 +1,10 @@
 package com.fauna.grupo3.modelo
 
+/**
+ * - Autor: Pau Pasalodos
+ * - Entidad: Animales
+ * - Grupo: 3
+ */
 data class Animal(
     val id_animal: Int,
     val nombre: String,

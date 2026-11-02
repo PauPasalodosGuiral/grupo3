@@ -1,5 +1,11 @@
 package com.fauna.grupo3
 
+/**
+ * - Autor: Pau Pasalodos
+ * - Entidad: Main
+ * - Grupo: 3
+ */
+
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.web.bind.annotation.GetMapping

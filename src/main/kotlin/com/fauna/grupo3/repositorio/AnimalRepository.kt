@@ -1,5 +1,11 @@
 package com.fauna.grupo3.repositorio
 
+/**
+ * - Autor: Pau Pasalodos
+ * - Entidad: Animales
+ * - Grupo: 3
+ */
+
 import com.fauna.grupo3.modelo.Animal
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
