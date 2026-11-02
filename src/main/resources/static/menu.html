@@ -4,57 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menú - Fauna</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .card-opcion { transition: all 0.3s ease; border: 0; }
-        .card-opcion:hover { transform: translateY(-5px); box-shadow: 0 .75rem 1.5rem rgba(0,0,0,.15) !important; }
-        .btn-success-botanic { background-color: #2e7d32; border-color: #1b5e20; color: white; font-weight: bold; }
-        .btn-success-botanic:hover { background-color: #1b5e20; border-color: #0d3c11; color: white; }
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght,wdth@12..96,700..800,75..100&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/fauna.css">
 </head>
-<body class="bg-light">
-<div class="container py-5">
-    <div class="text-center mb-5">
-        <h1 class="text-success fw-bold"> ¿Qué quieres consultar?</h1>
-        <p class="text-muted fs-5">Elige una de las tres secciones</p>
-    </div>
-
-    <div class="row g-4 justify-content-center">
-        <div class="col-md-4">
-            <div class="card card-opcion shadow-sm h-100 text-center">
-                <div class="card-body p-4">
-                    <div class="display-1 mb-3">🐾</div>
-                    <h3 class="fw-bold text-success">Animales</h3>
-                    <p class="text-muted">Especies, origen, esperanza de vida y peso medio.</p>
-                    <a href="/animales" class="btn btn-success-botanic w-100 py-2">Ver animales</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card card-opcion shadow-sm h-100 text-center">
-                <div class="card-body p-4">
-                    <div class="display-1 mb-3">🏞️</div>
-                    <h3 class="fw-bold text-success">Hábitats</h3>
-                    <p class="text-muted">Clima, altitud media y temperatura media.</p>
-                    <a href="/habitats" class="btn btn-success-botanic w-100 py-2">Ver hábitats</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card card-opcion shadow-sm h-100 text-center">
-                <div class="card-body p-4">
-                    <div class="display-1 mb-3">🧑‍🌾</div>
-                    <h3 class="fw-bold text-success">Cuidadores</h3>
-                    <p class="text-muted">Especialidad, experiencia y tarifa.</p>
-                    <a href="/cuidadores" class="btn btn-success-botanic w-100 py-2">Ver cuidadores</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="text-center mt-5">
-        <a href="/" class="btn btn-outline-secondary">Volver al inicio</a>
-    </div>
+<body data-sec="animales">
+<div class="bar">
+    <a class="logo" href="/">Fauna</a>
 </div>
+<main class="wrap">
+    <h1 class="menu-titulo">¿Qué quieres consultar?</h1>
+    <div class="paneles">
+        <a class="panel panel-animales" href="/animales">
+            <div><div class="icono">🐾</div></div>
+            <div><h2>Animales</h2><p>Especies, origen, esperanza de vida y peso medio.</p></div>
+            <span class="ir">Ver animales</span>
+        </a>
+        <a class="panel panel-habitats" href="/habitats">
+            <div><div class="icono">🏞️</div></div>
+            <div><h2>Hábitats</h2><p>Clima, altitud media y temperatura media.</p></div>
+            <span class="ir">Ver hábitats</span>
+        </a>
+        <a class="panel panel-cuidadores" href="/cuidadores">
+            <div><div class="icono">🧑‍🌾</div></div>
+            <div><h2>Cuidadores</h2><p>Especialidad, experiencia y tarifa.</p></div>
+            <span class="ir">Ver cuidadores</span>
+        </a>
+    </div>
+    <div class="pie"><a class="btn" href="/">Volver al inicio</a></div>
+</main>
 </body>
 </html>

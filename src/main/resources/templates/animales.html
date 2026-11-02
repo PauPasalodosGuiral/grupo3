@@ -1,40 +1,51 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo de Animales</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght,wdth@12..96,700..800,75..100&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/fauna.css}">
 </head>
-<body class="bg-light">
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="text-success fw-bold">🐾 Catálogo de animales</h1>
-        <a href="/animales/nuevo" class="btn btn-success">Añadir nuevo animal</a>
-    </div>
+<body data-sec="animales">
+<header class="bar">
+    <a class="logo" href="/">Fauna</a>
+    <nav aria-label="Secciones"><a href="/animales" aria-current="page">Animales</a><a href="/habitats">Hábitats</a><a href="/cuidadores">Cuidadores</a></nav>
+</header>
+<main class="wrap">
+    <section class="portada">
+        <div>
+            <h1>Catálogo de animales</h1>
+            <p class="sub"><span th:text="${animales.size()}">0</span> registrados</p>
+        </div>
+        <a href="/animales/nuevo" class="btn btn-solid">Añadir animal</a>
+    </section>
 
-    <div th:if="${animales.size() > 0}" class="table-responsive">
-        <table class="table table-striped table-hover align-middle shadow-sm bg-white rounded">
-            <thead class="table-success">
+    <div th:if="${animales.size() > 0}" class="tabla-caja">
+        <table>
+            <thead>
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Origen</th>
                 <th>Esperanza de vida</th>
                 <th>Peso medio</th>
-                <th class="text-center">Acciones</th>
+                <th class="acciones">Acciones</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="animal : ${animales}">
                 <td th:text="${animal.id_animal}">1</td>
-                <td th:text="${animal.nombre}">Lobo ibérico</td>
+                <td th:text="${animal.nombre}">Nombre</td>
                 <td th:text="${animal.origen}">España</td>
                 <td th:text="${animal.esperanza_vida} + ' años'">12 años</td>
                 <td th:text="${animal.peso_medio} + ' kg'">35 kg</td>
-                <td class="text-center">
-                    <a th:href="@{/animal/{id}(id=${animal.id_animal})}" class="btn btn-info btn-sm">Detalles</a>
-                    <a th:href="@{/animales/editar/{id}(id=${animal.id_animal})}" class="btn btn-warning btn-sm">Editar</a>
-                    <a th:href="@{/animales/borrar/{id}(id=${animal.id_animal})}" class="btn btn-danger btn-sm"
+                <td class="acciones">
+                    <a th:href="@{/animal/{id}(id=${animal.id_animal})}" class="btn btn-sm btn-sec">Detalles</a>
+                    <a th:href="@{/animales/editar/{id}(id=${animal.id_animal})}" class="btn btn-sm">Editar</a>
+                    <a th:href="@{/animales/borrar/{id}(id=${animal.id_animal})}" class="btn btn-sm btn-peligro"
                        onclick="return confirm('¿Estás seguro de borrar este animal?')">Borrar</a>
                 </td>
             </tr>
@@ -42,13 +53,13 @@
         </table>
     </div>
 
-    <div th:unless="${animales.size() > 0}" class="alert alert-warning text-center shadow-sm">
+    <div th:unless="${animales.size() > 0}" class="vacio">
         No se han encontrado animales registrados en el sistema.
     </div>
 
-    <div class="text-start mt-4">
-        <a href="/menu.html" class="btn btn-outline-secondary">Volver al menú</a>
+    <div class="pie">
+        <a href="/menu.html" class="btn">Volver al menú</a>
     </div>
-</div>
+</main>
 </body>
 </html>
