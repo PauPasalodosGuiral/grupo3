@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Catálogo de Animales</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-success fw-bold">🐾 Catálogo de animales</h1>
+        <a href="/animales/nuevo" class="btn btn-success">Añadir nuevo animal</a>
+    </div>
+
+    <div th:if="${animales.size() > 0}" class="table-responsive">
+        <table class="table table-striped table-hover align-middle shadow-sm bg-white rounded">
+            <thead class="table-success">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Origen</th>
+                <th>Esperanza de vida</th>
+                <th>Peso medio</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="animal : ${animales}">
+                <td th:text="${animal.id_animal}">1</td>
+                <td th:text="${animal.nombre}">Lobo ibérico</td>
+                <td th:text="${animal.origen}">España</td>
+                <td th:text="${animal.esperanza_vida} + ' años'">12 años</td>
+                <td th:text="${animal.peso_medio} + ' kg'">35 kg</td>
+                <td class="text-center">
+                    <a th:href="@{/animal/{id}(id=${animal.id_animal})}" class="btn btn-info btn-sm">Detalles</a>
+                    <a th:href="@{/animales/editar/{id}(id=${animal.id_animal})}" class="btn btn-warning btn-sm">Editar</a>
+                    <a th:href="@{/animales/borrar/{id}(id=${animal.id_animal})}" class="btn btn-danger btn-sm"
+                       onclick="return confirm('¿Estás seguro de borrar este animal?')">Borrar</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:unless="${animales.size() > 0}" class="alert alert-warning text-center shadow-sm">
+        No se han encontrado animales registrados en el sistema.
+    </div>
+
+    <div class="text-start mt-4">
+        <a href="/menu.html" class="btn btn-outline-secondary">Volver al menú</a>
+    </div>
+</div>
+</body>
+</html>

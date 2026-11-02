@@ -3,55 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienvenido - Botánica</title>
-    <!-- Importación de Bootstrap mediante CDN -->
+    <title>Bienvenido - Fauna</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Un pequeño toque de personalización para el tema botánico */
-        .btn-success-botanic {
-            background-color: #2e7d32;
-            border-color: #1b5e20;
-            color: white;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-        .btn-success-botanic:hover {
-            background-color: #1b5e20;
-            border-color: #0d3c11;
-            color: white;
-            transform: translateY(-2px);
-        }
+        .btn-success-botanic { background-color: #2e7d32; border-color: #1b5e20; color: white; font-weight: bold; transition: all 0.3s ease; }
+        .btn-success-botanic:hover { background-color: #1b5e20; border-color: #0d3c11; color: white; transform: translateY(-2px); }
     </style>
 </head>
 <body class="bg-light d-flex align-items-center justify-content-center" style="min-height: 100vh;">
-
 <div class="container text-center py-5">
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
-
-            <!-- Icono representativo -->
-            <div class="display-1 text-success mb-4">🌿</div>
-            <img src="/fotos/unnamed.jpg" class="img-fluid rounded mb-4 shadow-sm" alt="Imagen de Hábitat" style="max-height: 180px; object-fit: cover;">
-
-            <!-- Título del Portal -->
-            <h1 class="fw-bold mb-3">Pau Pasaportes, Izin.alc y Jonathan Rosa</h1>
-
+            <div class="display-1 text-success mb-4">🦁</div>
+            <h1 class="fw-bold mb-3">Fauna</h1>
             <p class="fs-5 text-muted mb-5">
-               Pau Fracasado Pau Fracasado  Pau Fracasado Pau Fracasado Pau Fracasado Pau Fracasado Pau Fracasado Pau Fracasado Pau Fracasado Pau Fracasado Pau Fracasado Pau Fracasado Pau Fracasado :3
+                Bienvenido a la aplicación de gestión del zoo. Consulta animales, hábitats y cuidadores, añade nuevos registros o edita los existentes de forma cómoda.
             </p>
-
-            <!-- Botón de acceso que redirige al controlador de Thymeleaf -->
             <div class="d-grid gap-2 col-8 mx-auto">
-                <a href="/plantas" class="btn btn-success-botanic btn-lg shadow-sm py-3">
-                    Seguir a la prima de Lary
-                </a>
+                <a href="/menu.html" class="btn btn-success-botanic btn-lg shadow-sm py-3">Entrar al Menú</a>
             </div>
-
         </div>
     </div>
 </div>
-
-<!-- Script de Bootstrap -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
