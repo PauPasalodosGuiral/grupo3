@@ -18,6 +18,18 @@ class CuidadorService(private val repository: CuidadorRepository) {
 
     fun existeId(id: Int): Boolean = buscar(id) != null
 
+    fun guardar(cuidador: Cuidador) {
+        val lista = listar().toMutableList()
+        val indice = lista.indexOfFirst { it.id == cuidador.id }
+        if (cuidador.id > 0 && indice != -1) {
+            lista[indice] = cuidador
+        } else {
+            val nuevoId = (lista.maxOfOrNull { it.id } ?: 0) + 1
+            lista.add(cuidador.copy(id = nuevoId))
+        }
+        repository.guardarCSV(lista)
+    }
+
     fun anadir(cuidador: Cuidador) {
         val lista = listar().toMutableList()
         lista.add(cuidador)

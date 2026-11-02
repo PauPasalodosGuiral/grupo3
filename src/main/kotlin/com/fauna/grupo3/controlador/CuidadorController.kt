@@ -12,49 +12,50 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 
 @Controller
-@RequestMapping("/cuidadores")
 class CuidadorController(private val service: CuidadorService) {
 
-    @GetMapping
+    // 1. LISTAR
+    @GetMapping("/cuidadores")
     fun listarCuidadores(model: Model): String {
         model.addAttribute("cuidadores", service.listar())
-        return "cuidadores/lista"
+        return "cuidadores"
     }
 
-    @GetMapping("/nuevo")
-    fun mostrarFormularioAñadir(model: Model): String {
+    // 2. DETALLE
+    @GetMapping("/cuidador/{id}")
+    fun verCuidador(@PathVariable id: Int, model: Model): String {
+        val cuidador = service.buscar(id) ?: return "errorCuidador"
+        model.addAttribute("cuidador", cuidador)
+        return "detalleCuidador"
+    }
+
+    // 3. FORMULARIO NUEVO
+    @GetMapping("/cuidadores/nuevo")
+    fun mostrarFormularioAnadir(model: Model): String {
         model.addAttribute("cuidador", Cuidador(0, "", "", 0, 0.0))
-        return "cuidadores/formulario"
+        model.addAttribute("titulo", "Nuevo cuidador")
+        return "formCuidador"
     }
 
-    @PostMapping("/guardar")
-    fun guardarCuidador(@ModelAttribute cuidador: Cuidador): String {
-        if (cuidador.id > 0 && !service.existeId(cuidador.id)) {
-            service.anadir(cuidador)
-        }
-        return "redirect:/cuidadores"
-    }
-
-    @GetMapping("/editar/{id}")
+    // 4. FORMULARIO EDITAR
+    @GetMapping("/cuidadores/editar/{id}")
     fun mostrarFormularioModificar(@PathVariable id: Int, model: Model): String {
         val cuidador = service.buscar(id) ?: return "redirect:/cuidadores"
         model.addAttribute("cuidador", cuidador)
-        return "cuidadores/formulario"
+        model.addAttribute("titulo", "Editar cuidador")
+        return "formCuidador"
     }
 
-    @PostMapping("/actualizar/{id}")
-    fun actualizarCuidador(
-        @PathVariable id: Int,
-        @RequestParam especialidad: String,
-        @RequestParam experiencia: Int,
-        @RequestParam tarifa: Double
-    ): String {
-        service.modificar(id, especialidad, experiencia, tarifa)
+    // 5. GUARDAR (crea si id == 0, actualiza si ya existe)
+    @PostMapping("/cuidadores/guardar")
+    fun guardarCuidador(@ModelAttribute cuidador: Cuidador): String {
+        service.guardar(cuidador)
         return "redirect:/cuidadores"
     }
 
-    @GetMapping("/eliminar/{id}")
-    fun eliminarCuidador(@PathVariable id: Int): String {
+    // 6. BORRAR
+    @GetMapping("/cuidadores/borrar/{id}")
+    fun borrarCuidador(@PathVariable id: Int): String {
         service.eliminar(id)
         return "redirect:/cuidadores"
     }
