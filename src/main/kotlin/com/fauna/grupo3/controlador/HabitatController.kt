@@ -7,7 +7,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 
 /**
- * Autor: Jonathan Rosa (adaptado)
+ * Autor: Jonathan Rosa
  * Entidad: Habitat
  * Grupo: 3
  */
